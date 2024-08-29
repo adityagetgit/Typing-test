@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="wps.css">
+</head>
+<body>
+   <div id="main">
+    <div id="centre">
+        <h1>टाइपिंग टेस्ट</h1>
+    <p class="para"></p>
+    <br>
+  <textarea  id="text" cols="30" rows="10" placeholder="write...."></textarea>
+    <br>
+    <button id="btn"> Start</button>
+    </div>
+    
+   </div> 
+</body>
+<script>
+      function showPara() {
+            const para = document.querySelector('.para');
+            para.classList.remove('animate');
+            void para.offsetWidth; // Trigger reflow
+            para.classList.add('animate');
+        }
+  var set =[
+  "You only live once, but if you do it right, once is enough.",
+  "Outside of a dog, a book is man's best friend. Inside of a dog it's too dark to read",
+  "I find television very educating. Every time somebody turns on the set, I go into the other room and read a book.",
+  "The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it.",
+  "I am free of all prejudice. I hate everyone equally. "
+  ];
+var text = document.getElementById('text');
+var btn = document.getElementById('btn');
+var para = document.querySelector(".para");
+let start,end;
+
+
+var play = ( )=>{
+  let random =Math.floor(Math.random() *set.length);
+  console.log(random);
+  para.innerText=set[random];
+  btn.innerText='Done';
+  let date = new Date();
+  start = date.getTime();
+  // console.log(start);
+  showPara();
+
+}
+var endt = () =>{
+  showPara();
+  let date = new Date();
+  end = date.getTime();
+  let total = ((end - start)/1000);
+  console.log(total);
+  let textstr = text.value;
+  let wordcount = wcounter(textstr);
+  let speed = Math.round((wordcount/total)*60);
+  let msg = 'Speed: ' + speed + 'Wpm';
+  console.log(msg);
+  // para.innerText=msg + compare(set[set.length - 1], textstr);
+ para.innerText = msg + compare (para.innerText, textstr);  
+  
+  text.value="";
+  
+}
+
+//compare of the words and giv back the speed and non corect word
+var compare = (str1, str2)=> {
+let w1 = str1.split(' ');
+let w2 = str2.split(' ');
+let count = 0 ;
+w1.forEach(function(item, index){
+  if ( item == w2[index] ){
+    count++;
+  }
+})
+let error = w1.length -count;
+return ( " "+ count + " are corect out of "+ w1.length+ "//  Errrors : " + error );
+
+
+}
+
+
+
+
+const wcounter = (str) =>{
+  let response = str.split(" ").length;
+  console.log(response);
+  return response;
+  
+}
+
+
+
+
+var btnClick= () => {
+  if (btn.innerText=='Start'){
+
+console.log(btn);
+console.log("hello");
+
+play();
+text.disabled= false;
+
+
+  }
+  else if (btn.innerText=='Done'){
+   text.disabled=true;
+   btn.innerText="Start";
+   endt();
+  }
+
+}
+btn.addEventListener('click', btnClick);
+</script>
+</html>
